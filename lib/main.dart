@@ -37,6 +37,12 @@ void main() {
 
 */
 
+
+/*
+ Teste de alteração p atualizar no GIT
+
+ */
+
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
