@@ -186,47 +186,19 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 25,
-                    width: 200,
-                    child: Text(
-                      _displayHistory,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 25,
-                    width: 20,
-                    child: Text(
-                      _displayOperator,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 40,
-                width: 220,
-                child: Text(
-                  _display,
-                  textAlign: TextAlign.right,
-                  style: const TextStyle(
-                    fontSize: 35,
-                  ),
-                ),
-              ),
               Expanded(
+                flex: 1,
+                child: FittedBox(child: Row(
+                  children: [
+                    Text(_displayHistory),
+                    Text(_displayOperator),
+                  ],
+                ))),
+              Expanded(
+                flex: 2,
+                child: FittedBox(child: Text(_display))),
+              Expanded(
+                flex: 10,
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: GridView.count(

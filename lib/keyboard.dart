@@ -25,13 +25,13 @@ class CustomKey extends StatelessWidget {
       elevation: size / 3,
       child: InkWell(
         onTap: function,
-        child: Container(
-          height: size * 1.5,
-          width: size * 2,
-          alignment: Alignment.center,
-          child: Text(
-            text,
-            style: customFontStyle(size: size, lobster: true),
+        child: FittedBox(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              text,
+              style: customFontStyle(lobster: true),
+            ),
           ),
         ),
       ),
