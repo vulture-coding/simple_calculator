@@ -37,7 +37,6 @@ void main() {
 
 */
 
-
 /*
  Teste de alteração p atualizar no GIT
 
@@ -56,6 +55,8 @@ class _MyAppState extends State<MyApp> {
   String _display = '0';
   String _displayHistory = '0';
   String _displayOperator = ' ';
+  String _historyMem = '0';
+  String _lastKeyPressed = '';
 
   void _clearDisplay() {
     setState(() {
@@ -63,10 +64,18 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _clearHistoryMem() {
+    setState(() {
+      _historyMem = '0';
+    });
+  }
+
   void _clearEverything() {
     setState(() {
       _displayHistory = '0';
       _displayOperator = ' ';
+      _lastKeyPressed = '';
+      _clearHistoryMem();
       _clearDisplay();
     });
   }
@@ -79,6 +88,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _updateDisplay(String s) {
+    _lastKeyPressed += s;
     _displayOperator == '=' ? _clearEverything() : null;
     setState(() {
       if (_display == '0') {
@@ -86,25 +96,32 @@ class _MyAppState extends State<MyApp> {
       } else if (_display.length < 11) {
         _display += s;
       }
+      _historyMem == '0' ? _historyMem = s : _historyMem += s;
     });
   }
 
   void _del() {
+    _lastKeyPressed += '<';
+
+    _displayOperator == '=' ? _clearEverything() : null;
+
     setState(() {
       if (_display != '0') {
         _display = _display.substring(0, _display.length - 1);
         _display == '' ? _display = '0' : null;
       }
-    });
-  }
-
-  void _switchTheme() {
-    setState(() {
-      darkMode = !darkMode;
+      if (_historyMem != '0') {
+        _historyMem = _historyMem.substring(0, _historyMem.length - 1);
+        _historyMem == '' ? _historyMem = '0' : null;
+      }
     });
   }
 
   void _percent() {
+    _lastKeyPressed += '%';
+
+    _historyMem = _historyMem.substring(0, _historyMem.lastIndexOf(_display));
+
     if (_displayOperator == '+' || _displayOperator == '-') {
       setState(() {
         _display =
@@ -116,22 +133,52 @@ class _MyAppState extends State<MyApp> {
         _display = (double.parse(_display) / 100).toString();
       });
     }
+
+    _historyMem += _display;
+  }
+
+  void _reverseSign() {
+    _lastKeyPressed += '!';
+    _historyMem = _historyMem.substring(0, _historyMem.lastIndexOf(_display));
+
+    _display = "${-double.parse(_display)}";
+
+    _historyMem += _display;
   }
 
   void _operator(String op) {
     setState(() {
-      if (_displayHistory == ' ') {
+      if ('x/'.contains(op) &
+          !_historyMem.contains('x') &
+          !_historyMem.contains('/') &
+          (_historyMem.contains('+') || _historyMem.contains('-'))) {
+        _historyMem = '(${_historyMem.substring(0, _historyMem.length)})';
+      }
+
+      if (_isOperator(_historyMem[_historyMem.length - 1])) {
+        _historyMem = _historyMem.substring(0, _historyMem.length - 1);
+        _historyMem += op;
+      } else if (_displayHistory == ' ') {
         _displayHistory = _display;
       } else {
         _result();
         _displayHistory = _display;
       }
+      _lastKeyPressed += op;
       _displayOperator = op;
+
+      if (!_historyMem.endsWith(op)) {
+        _historyMem += op;
+      }
       _clearDisplay();
     });
   }
 
-  void _result() {
+  bool _isOperator(String op) => '+-x/'.contains(op);
+
+  bool _isNum(String n) => '0123456789'.contains(n);
+
+  void _result({bool? manualClick}) {
     setState(() {
       switch (_displayOperator) {
         case '+':
@@ -150,9 +197,24 @@ class _MyAppState extends State<MyApp> {
           _display = (double.parse(_displayHistory) / double.parse(_display))
               .toString();
           break;
+        case '=':
+          _historyMem = _display;
+          _displayHistory = _display;
+          break;
       }
       _clearHistory();
       _displayOperator = '=';
+
+      if (manualClick ?? false) {
+        _historyMem += '=';
+        _lastKeyPressed += '=';
+      }
+    });
+  }
+
+  void _switchTheme() {
+    setState(() {
+      darkMode = !darkMode;
     });
   }
 
@@ -188,15 +250,11 @@ class _MyAppState extends State<MyApp> {
             children: <Widget>[
               Expanded(
                 flex: 1,
-                child: FittedBox(child: Row(
-                  children: [
-                    Text(_displayHistory),
-                    Text(_displayOperator),
-                  ],
-                ))),
-              Expanded(
-                flex: 2,
-                child: FittedBox(child: Text(_display))),
+                child: FittedBox(
+                  child: Text(_historyMem),
+                ),
+              ),
+              Expanded(flex: 2, child: FittedBox(child: Text(_display))),
               Expanded(
                 flex: 10,
                 child: Padding(
@@ -222,7 +280,7 @@ class _MyAppState extends State<MyApp> {
                       CustomKey(text: '-', function: () => _operator('-')),
                       CustomKey(text: '.', function: () => _updateDisplay('.')),
                       CustomKey(text: '0', function: () => _updateDisplay('0')),
-                      CustomKey(text: '=', function: () => _result()),
+                      CustomKey(text: '=', function: () => _result(manualClick: true),isOperator: true),
                       CustomKey(text: '+', function: () => _operator('+')),
                     ],
                   ),
