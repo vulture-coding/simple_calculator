@@ -2,8 +2,6 @@ import 'keyboard.dart';
 import 'package:flutter/material.dart';
 import 'style.dart';
 import 'dart:html' as html;
-import 'package:basic_calculator/my_flutter_app_icons.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -236,22 +234,31 @@ class _MyAppState extends State<MyApp> {
               onChanged: (bool state) => _switchTheme(),
             ),
             PopupMenuButton(
-                icon: const Icon(Icons.menu),
-                itemBuilder: (context) => [
-                      PopupMenuItem(
-                        child: Center(child: Text(darkMode ? 'Light Theme' : 'Dark Theme')),
-                        onTap: () => _switchTheme(),
+              icon: const Icon(Icons.menu),
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: Center(
+                      child: Text(darkMode ? 'Light Theme' : 'Dark Theme')),
+                  onTap: () => _switchTheme(),
+                ),
+                PopupMenuItem(
+                  onTap: () => html.window.open(
+                      'https://github.com/vulture-coding', 'vulture-coding'),
+                  child: Row(
+                    children: const [
+                      SizedBox(
+                        height: 20,
+                        child: Image(
+                          image: AssetImage('images/GitHub-Logo.png'),
+                        ),
                       ),
-                      PopupMenuItem(
-                          onTap: () => html.window.open('https://github.com/vulture-coding', 'vulture-coding'),
-                          child: Row(
-                            children: const [
-                              Icon(MyFlutterApp.git_1),
-                              Text(' Criado por Lucas Moraes '),
-                              Icon(Icons.open_in_new)
-                            ],
-                          ))
-                    ])
+                      Text(' Criado por Lucas Moraes '),
+                      Icon(Icons.open_in_new),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
         body: Center(
@@ -290,7 +297,10 @@ class _MyAppState extends State<MyApp> {
                       CustomKey(text: '-', function: () => _operator('-')),
                       CustomKey(text: '.', function: () => _updateDisplay('.')),
                       CustomKey(text: '0', function: () => _updateDisplay('0')),
-                      CustomKey(text: '=', function: () => _result(manualClick: true),isOperator: true),
+                      CustomKey(
+                          text: '=',
+                          function: () => _result(manualClick: true),
+                          isOperator: true),
                       CustomKey(text: '+', function: () => _operator('+')),
                     ],
                   ),
