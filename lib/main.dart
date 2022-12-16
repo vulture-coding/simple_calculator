@@ -1,13 +1,16 @@
 import 'package:dark_switch/keyboard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_launcher_icons/abs/icon_generator.dart';
 import 'style.dart';
+import 'dart:html' as html;
+
 
 void main() {
   runApp(const MyApp());
 }
 
 /*
-  TOsDO list:
+  TODO list:
   
   PHASE 1:
   > Change the vars _display  / _displayHistory to double, AND
@@ -236,11 +239,20 @@ class _MyAppState extends State<MyApp> {
                 icon: const Icon(Icons.menu),
                 itemBuilder: (context) => [
                       PopupMenuItem(
-                        child: Text(darkMode ? 'Light Theme' : 'Dark Theme'),
+                        child: Center(child: Text(darkMode ? 'Light Theme' : 'Dark Theme')),
                         onTap: () => _switchTheme(),
                       ),
-                      const PopupMenuItem(
-                          child: Text('Criado por Lucas Moraes'))
+                      PopupMenuItem(
+                          onTap: () => html.window.open('https://github.com/vulture-coding', 'vulture-coding'),
+                          child: Row(
+                            children: const [
+                              Image(
+                                height: 20,
+                                image: AssetImage('images/github-shadow-grey.png')),
+                              Text(' Criado por Lucas Moraes '),
+                              Icon(Icons.open_in_new)
+                            ],
+                          ))
                     ])
           ],
         ),

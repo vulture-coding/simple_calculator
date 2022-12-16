@@ -19,10 +19,10 @@ class CustomKey extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+
       color: isOperator ?? false ? darkMode ? Colors.blue: Colors.amber: null,
       margin: EdgeInsets.all(size / 15),
-      shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(size / 3)),
+      shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(size / 3)),
       elevation: size / 3,
       child: InkWell(
         onTap: function,
