@@ -1,8 +1,8 @@
-import 'package:dark_switch/keyboard.dart';
+import 'keyboard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_launcher_icons/abs/icon_generator.dart';
 import 'style.dart';
 import 'dart:html' as html;
+import 'package:basic_calculator/my_flutter_app_icons.dart';
 
 
 void main() {
@@ -246,9 +246,7 @@ class _MyAppState extends State<MyApp> {
                           onTap: () => html.window.open('https://github.com/vulture-coding', 'vulture-coding'),
                           child: Row(
                             children: const [
-                              Image(
-                                height: 20,
-                                image: AssetImage('images/github-shadow-grey.png')),
+                              Icon(MyFlutterApp.git_1),
                               Text(' Criado por Lucas Moraes '),
                               Icon(Icons.open_in_new)
                             ],
