@@ -1,7 +1,8 @@
 import 'keyboard.dart';
 import 'package:flutter/material.dart';
 import 'style.dart';
-import 'dart:html' as html;
+//import 'dart:html' as html;
+//import 'basic_calculator/testing-code/testing.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,6 +52,7 @@ class MyApp extends StatefulWidget {
 }
 
 bool darkMode = true;
+
 
 class _MyAppState extends State<MyApp> {
   String _display = '0';
@@ -221,6 +223,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    Image gitLogo = Image(
+      image: darkMode ?
+      const AssetImage('assets/images/git-white.png'):
+      const AssetImage('assets/images/git-black.png'),
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: darkMode ? darkTheme() : lightTheme(),
@@ -242,15 +249,12 @@ class _MyAppState extends State<MyApp> {
                   onTap: () => _switchTheme(),
                 ),
                 PopupMenuItem(
-                  onTap: () => html.window.open(
-                      'https://github.com/vulture-coding', 'vulture-coding'),
+                  //onTap: () => html.window.open('https://github.com/vulture-coding', 'vulture-coding'),
                   child: Row(
-                    children: const [
+                    children: [
                       SizedBox(
-                        height: 20,
-                        child: Image(
-                          image: AssetImage('images/GitHub-Logo.png'),
-                        ),
+                        height: 25,
+                        child: gitLogo
                       ),
                       Text(' Criado por Lucas Moraes '),
                       Icon(Icons.open_in_new),
@@ -279,6 +283,9 @@ class _MyAppState extends State<MyApp> {
                   child: GridView.count(
                     crossAxisCount: 4,
                     children: [
+                      ElevatedButton(onPressed: (){
+                        
+                      }, child: const Icon(Icons.open_in_new)),
                       CustomKey(text: '%', function: _percent),
                       CustomKey(text: 'CE', function: _clearEverything),
                       CustomKey(text: 'C', function: _clearDisplay),

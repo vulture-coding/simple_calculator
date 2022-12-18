@@ -1,12 +1,16 @@
-# simple-calculator
+# simple_calculator
 
-A simple calculator app that can perform basic math operations.
+A new Flutter project.
 
-## About this project:
+## Getting Started
 
-The main goal of this project is to serve as a starting point on a Flutter Developer career.
+This project is a starting point for a Flutter application.
 
-This project will be used for:
-- putting in practice the code, techniques, ideas and concepts learned;
-- keeping track of my progress through the development of this app;
-- keeping track of my flutter coding skills improvement.
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
