@@ -1,8 +1,8 @@
 import 'keyboard.dart';
 import 'package:flutter/material.dart';
 import 'style.dart';
-//import 'dart:html' as html;
-//import 'basic_calculator/testing-code/testing.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -54,12 +54,21 @@ class MyApp extends StatefulWidget {
 bool darkMode = true;
 
 
+
 class _MyAppState extends State<MyApp> {
   String _display = '0';
   String _displayHistory = '0';
   String _displayOperator = ' ';
   String _historyMem = '0';
   String _lastKeyPressed = '';
+  final Uri _url = Uri.parse('https://github.com/vulture-coding');
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
+
 
   void _clearDisplay() {
     setState(() {
@@ -249,7 +258,7 @@ class _MyAppState extends State<MyApp> {
                   onTap: () => _switchTheme(),
                 ),
                 PopupMenuItem(
-                  //onTap: () => html.window.open('https://github.com/vulture-coding', 'vulture-coding'),
+                  onTap: _launchUrl,
                   child: Row(
                     children: [
                       SizedBox(
@@ -275,17 +284,16 @@ class _MyAppState extends State<MyApp> {
                   child: Text(_historyMem),
                 ),
               ),
-              Expanded(flex: 2, child: FittedBox(child: Text(_display))),
+              Expanded(flex: 2, child: FittedBox(
+                child: Text(_display))),
+              const Expanded(flex: 2, child: Text('')),
               Expanded(
-                flex: 10,
+                flex: 12,
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: GridView.count(
                     crossAxisCount: 4,
                     children: [
-                      ElevatedButton(onPressed: (){
-                        
-                      }, child: const Icon(Icons.open_in_new)),
                       CustomKey(text: '%', function: _percent),
                       CustomKey(text: 'CE', function: _clearEverything),
                       CustomKey(text: 'C', function: _clearDisplay),
